@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+set -eu
+
+MODE="${1:-region}"
+OUT_DIR="${HOME}/Pictures/Screenshots"
+STAMP="$(date +%Y-%m-%d_%H-%M-%S)"
+OUT_FILE="${OUT_DIR}/screenshot_${STAMP}.png"
+
+need_cmd() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+for cmd in grim wl-copy; do
+    if ! need_cmd "$cmd"; then
+        if need_cmd notify-send; then
+            notify-send "Screenshot" "Missing dependency: $cmd"
+        fi
+        exit 1
+    fi
+done
+
+mkdir -p "$OUT_DIR"
+
+take_region() {
+    if ! need_cmd slurp; then
+        if need_cmd notify-send; then
+            notify-send "Screenshot" "Missing dependency: slurp"
+        fi
+        exit 1
+    fi
+
+    GEOM="$(slurp)"
+    [ -n "$GEOM" ] || exit 0
+    grim -g "$GEOM" "$OUT_FILE"
+}
+
+take_full() {
+    grim "$OUT_FILE"
+}
+
+take_window() {
+    if ! need_cmd mmsg; then
+        if need_cmd notify-send; then
+            notify-send "Screenshot" "Missing dependency: mmsg"
+        fi
+        exit 1
+    fi
+
+    GEOM_RAW="$(mmsg -g -x 2>/dev/null || true)"
+    GEOM_VALUES="$(printf '%s\n' "$GEOM_RAW" | grep -Eo '[0-9]+' | head -n 4 | tr '\n' ' ')"
+    set -- $GEOM_VALUES
+    [ "${1:-}" ] && [ "${2:-}" ] && [ "${3:-}" ] && [ "${4:-}" ] || {
+        if need_cmd notify-send; then
+            notify-send "Screenshot" "Could not read focused window geometry"
+        fi
+        exit 1
+    }
+
+    grim -g "$1,$2 ${3}x${4}" "$OUT_FILE"
+}
+
+case "$MODE" in
+    region)
+        take_region
+        ;;
+    full)
+        take_full
+        ;;
+    window)
+        take_window
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+
+wl-copy < "$OUT_FILE"
+
+if need_cmd notify-send; then
+    notify-send "Screenshot saved" "$OUT_FILE"
+fi

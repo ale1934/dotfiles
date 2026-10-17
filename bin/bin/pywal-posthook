@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -eu
+
+apply_wpgtk() {
+	local colors_json mode wallpaper
+
+	colors_json="$HOME/.cache/wal/colors.json"
+	mode="${HOME}/.cache/wal/theme-mode"
+
+	[ -x "$HOME/.local/bin/wpg" ] || return 0
+	[ -f "$colors_json" ] || return 0
+
+	wallpaper="$(
+		python3 -c 'import json, sys; print(json.load(open(sys.argv[1]))["wallpaper"])' "$colors_json" \
+			2>/dev/null || true
+	)"
+
+	[ -n "$wallpaper" ] || wallpaper="$(cat "$HOME/.cache/current_wallpaper" 2>/dev/null || true)"
+	[ -n "$wallpaper" ] || return 0
+
+	if [ "$(cat "$mode" 2>/dev/null || printf 'Dark')" = "Light" ]; then
+		"$HOME/.local/bin/wpg" -L -s "$wallpaper" --noterminal --noreload >/dev/null 2>&1 || true
+		pywalfox light
+	else
+		"$HOME/.local/bin/wpg" -s "$wallpaper" --noterminal --noreload >/dev/null 2>&1 || true
+		pywalfox dark
+	fi
+}
+
+reload_mango() {
+	if command -v mmsg >/dev/null 2>&1; then
+		mmsg -s -d reload_config >/dev/null 2>&1 || true
+	fi
+}
+
+apply_wpgtk
+reload_mango

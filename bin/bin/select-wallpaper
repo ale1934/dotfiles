@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+set -u
+
+WALLDIR="$HOME/Wallpapers"
+LOGFILE="${XDG_RUNTIME_DIR:-/tmp}/wallpaper-script.log"
+
+mapfile -d '' -t WALLPAPERS < <(
+	find "$WALLDIR" \
+		-type f \
+		\( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.webp" \) \
+		-print0 | sort -z
+)
+
+[ "${#WALLPAPERS[@]}" -gt 0 ] || exit 1
+
+SELECTED_ENTRY=$(
+	for WALLPAPER in "${WALLPAPERS[@]}"; do
+		LABEL="${WALLPAPER#$WALLDIR/}"
+		LABEL="${LABEL//:/ - }"
+		printf 'img:%s:text:%s\n' "$WALLPAPER" "$LABEL"
+	done | wofi --show=dmenu -I \
+		-D parse_action=true \
+		-D image_size=96 \
+		--prompt="Select Wallpaper..."
+)
+
+printf '%s selected_entry=%q count=%s\n' \
+	"$(date '+%F %T')" "$SELECTED_ENTRY" "${#WALLPAPERS[@]}" >>"$LOGFILE"
+
+if [ -z "$SELECTED_ENTRY" ]; then
+	exit
+fi
+
+case "$SELECTED_ENTRY" in
+img:*:text:*)
+	WALLPAPER="${SELECTED_ENTRY#img:}"
+	WALLPAPER="${WALLPAPER%%:text:*}"
+	;;
+*)
+	printf '%s invalid_entry=%q\n' "$(date '+%F %T')" "$SELECTED_ENTRY" >>"$LOGFILE"
+	exit 1
+	;;
+esac
+
+[ -f "$WALLPAPER" ] || {
+	printf '%s missing_wallpaper=%q\n' "$(date '+%F %T')" "$WALLPAPER" >>"$LOGFILE"
+	exit 1
+}
+
+printf '%s selected_wallpaper=%q\n' "$(date '+%F %T')" "$WALLPAPER" >>"$LOGFILE"
+
+[ -z "$WALLPAPER" ] && exit
+
+THEME_MODE=$(
+	printf '%s\n' "Dark" "Light" | wofi --show=dmenu --prompt="Theme Mode..."
+)
+
+if [ -z "$THEME_MODE" ]; then
+	exit
+fi
+
+WAL_ARGS=()
+case "$THEME_MODE" in
+Light)
+	WAL_ARGS=(-l)
+	;;
+Dark)
+	;;
+*)
+	printf '%s invalid_theme_mode=%q\n' "$(date '+%F %T')" "$THEME_MODE" >>"$LOGFILE"
+	exit 1
+	;;
+esac
+
+printf '%s selected_theme_mode=%q\n' "$(date '+%F %T')" "$THEME_MODE" >>"$LOGFILE"
+
+mkdir -p "$HOME/.cache/wal"
+printf '%s\n' "$THEME_MODE" >"$HOME/.cache/wal/theme-mode"
+printf '%s\n' "$WALLPAPER" >"$HOME/.cache/current_wallpaper"
+
+swaybg -i "$WALLPAPER" &
+
+command wal "${WAL_ARGS[@]}" -o "$HOME/.local/bin/pywal-posthook" -i "$WALLPAPER" &
+
+killall waybar >/dev/null 2>&1 || true
+waybar &
+
+pywalfox update
