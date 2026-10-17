@@ -1,0 +1,28 @@
+{
+    "checksum": "d61af75ddf47e4fff9669e7c43b2ab5e",
+    "wallpaper": "/home/ale/Wallpapers/rei-shinji.jpg",
+    "alpha": "100",
+    "special": {
+        "background": "#0e060e",
+        "foreground": "#c2c0c2",
+        "cursor": "#c2c0c2"
+    },
+    "colors": {
+        "color0": "#0e060e",
+        "color1": "#7B8292",
+        "color2": "#A69D9D",
+        "color3": "#EDCCAF",
+        "color4": "#B1B8D5",
+        "color5": "#C2BCC1",
+        "color6": "#DCD3D3",
+        "color7": "#c2c0c2",
+        "color8": "#695569",
+        "color9": "#7B8292",
+        "color10": "#A69D9D",
+        "color11": "#EDCCAF",
+        "color12": "#B1B8D5",
+        "color13": "#C2BCC1",
+        "color14": "#DCD3D3",
+        "color15": "#c2c0c2"
+    }
+}
