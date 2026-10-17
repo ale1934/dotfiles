@@ -1,0 +1,55 @@
+
+@import url("~/.cache/wal/colors-wofi.css");
+
+* {
+    font-family: "Monofur Nerd Font", monospace;
+    font-size: 24px;
+}
+
+window {
+    margin: 0;
+    border: 2px solid var(--color5);
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+#outer-box {
+    margin: 12px;
+    padding: 6px;
+    border: none;
+    background-color: transparent;
+}
+
+#input {
+    margin: 0 0 10px 0;
+    padding: 10px 12px;
+    border: 1px solid var(--color8);
+    background-color: var(--color0);
+    color: var(--foreground);
+}
+
+#scroll {
+    margin: 0;
+    border: none;
+}
+
+#entry {
+    padding: 10px 12px;
+    border: none;
+    background-color: transparent;
+    color: var(--foreground);
+}
+
+#entry:selected {
+    background-color: var(--color5);
+    color: var(--background);
+}
+
+#text:selected {
+    color: var(--background);
+}
+
+#img {
+    margin-right: 10px;
+}
+

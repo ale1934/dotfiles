@@ -1,0 +1,28 @@
+{
+    "checksum": "ea298e5572cbea0898442a6e6778686d",
+    "wallpaper": "/home/ale/Wallpapers/paintturq.png",
+    "alpha": "100",
+    "special": {
+        "background": "#150910",
+        "foreground": "#c4c1c3",
+        "cursor": "#c4c1c3"
+    },
+    "colors": {
+        "color0": "#150910",
+        "color1": "#44A26B",
+        "color2": "#617187",
+        "color3": "#64A28F",
+        "color4": "#69B396",
+        "color5": "#74C4A1",
+        "color6": "#95C8B3",
+        "color7": "#c4c1c3",
+        "color8": "#6c5863",
+        "color9": "#44A26B",
+        "color10": "#617187",
+        "color11": "#64A28F",
+        "color12": "#69B396",
+        "color13": "#74C4A1",
+        "color14": "#95C8B3",
+        "color15": "#c4c1c3"
+    }
+}

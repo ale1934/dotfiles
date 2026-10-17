@@ -1,0 +1,28 @@
+{
+    "checksum": "32db6bc06f0b701daa485e722f6024a1",
+    "wallpaper": "/home/ale/Wallpapers/Mountains.jpg",
+    "alpha": "100",
+    "special": {
+        "background": "#f3f3f4",
+        "foreground": "#3c3c3d",
+        "cursor": "#3c3c3d"
+    },
+    "colors": {
+        "color0": "#f3f3f4",
+        "color1": "#817E90",
+        "color2": "#7C83A1",
+        "color3": "#9095AF",
+        "color4": "#9DA3C1",
+        "color5": "#AEB3CC",
+        "color6": "#BDC2D9",
+        "color7": "#3c3c3d",
+        "color8": "#b6b6b7",
+        "color9": "#817E90",
+        "color10": "#7C83A1",
+        "color11": "#9095AF",
+        "color12": "#9DA3C1",
+        "color13": "#AEB3CC",
+        "color14": "#BDC2D9",
+        "color15": "#3c3c3d"
+    }
+}

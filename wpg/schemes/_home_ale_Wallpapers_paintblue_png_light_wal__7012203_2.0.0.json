@@ -1,0 +1,28 @@
+{
+    "checksum": "7d90cadfae61173c611c903fc50bbfcf",
+    "wallpaper": "/home/ale/Wallpapers/paintblue.png",
+    "alpha": "100",
+    "special": {
+        "background": "#f4f4f4",
+        "foreground": "#3d3d3d",
+        "cursor": "#3d3d3d"
+    },
+    "colors": {
+        "color0": "#f4f4f4",
+        "color1": "#7395C7",
+        "color2": "#9090AE",
+        "color3": "#A19AB0",
+        "color4": "#AEACB8",
+        "color5": "#99A6D5",
+        "color6": "#C2C3C2",
+        "color7": "#3d3d3d",
+        "color8": "#b7b7b7",
+        "color9": "#7395C7",
+        "color10": "#9090AE",
+        "color11": "#A19AB0",
+        "color12": "#AEACB8",
+        "color13": "#99A6D5",
+        "color14": "#C2C3C2",
+        "color15": "#3d3d3d"
+    }
+}
